@@ -9,3 +9,9 @@ Given the item pairs, to build a model to predict if they are the same or differ
 ```
 pip install -r requirements.txt
 ```
+
+## Data
+Download data using kaggle-cli
+```
+kaggle competitions download -c pre-product-matching-id-ndsc-2020
+```
