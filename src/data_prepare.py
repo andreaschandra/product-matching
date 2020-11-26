@@ -6,7 +6,7 @@ from PIL import Image
 PATH_IMAGE = "../../ndsc_data/training_img/training_img/"
 
 class ShopeeDataset():
-    def __init__(self, data, test, word2idx, idx2word, stage = 'train'):
+    def __init__(self, data, test, word2idx, idx2word, stage = 'train', torch = False):
         train, val = train_test_split(data, random_state = 127)
         train.reset_index(drop=True, inplace=True)
         val.reset_index(drop=True, inplace=True)
@@ -18,6 +18,7 @@ class ShopeeDataset():
             'test': (test, test.shape[0])
         }
         self.set_split(stage)
+        self.torch = False
         
     def set_split(self, split='train'):
         self.data, self.length = self.dataset[split]
@@ -80,14 +81,14 @@ class ShopeeDataset():
         
         label = self.data.loc[idx, 'Label']
         
-        t1_encode = self.encode(t1)
-        t2_encode = self.encode(t2)
+        t1_encode = self.encode(t1,self.torch)
+        t2_encode = self.encode(t2,self.torch)
         
-        t1_encode = self.set_fix_length(t1_encode)
-        t2_encode = self.set_fix_length(t2_encode)
+        t1_encode = self.set_fix_length(t1_encode, self.torch)
+        t2_encode = self.set_fix_length(t2_encode, self.torch)
         
-        i1_scaled = self.read_image(os.path.join(PATH_IMAGE, i1))
-        i2_scaled = self.read_image(os.path.join(PATH_IMAGE, i2))
+        i1_scaled = self.read_image(os.path.join(PATH_IMAGE, i1), self.torch)
+        i2_scaled = self.read_image(os.path.join(PATH_IMAGE, i2), self.torch)
         
         return t1_encode, t2_encode, i1_scaled, i2_scaled, label
     
