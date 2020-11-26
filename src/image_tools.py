@@ -80,3 +80,16 @@ def auto_encoderv2(INPUT_DIM=76):
   # autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
   
   return auto_enc
+
+
+def auto_encoderv2(INPUT_DIM=76):
+  input_img = keras.Input(shape=(INPUT_DIM, INPUT_DIM, 3))
+
+  x = layers.Conv2D(64, (3, 3), activation='relu', padding='same')(input_img)
+  x = layers.MaxPooling2D((2, 2), padding='same')(x)
+  x = layers.Conv2D(32, (3, 3), activation='relu', padding='same')(x)
+  x = layers.MaxPooling2D((2, 2), padding='same')(x)
+  x = layers.Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+  x = layers.MaxPooling2D((2, 2), padding='same')(x)
+  x = layers.Conv2D(8, (3, 3), activation='relu', padding='same')(x)
+  encoded = layers.MaxPooling2D((2, 2), padding='same', name = 'enc')(x)

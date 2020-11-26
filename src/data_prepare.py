@@ -1,7 +1,8 @@
 from sklearn.model_selection import train_test_split
 import numpy as np
 import os
-from PIL import Image
+from PIL import Image,ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 PATH_IMAGE = "../../ndsc_data/training_img/training_img/"
 
@@ -69,7 +70,7 @@ class ShopeeDataset():
         if torch :
           img_arr = F.to_tensor(img_arr)
         else:
-          img_arr = np.array(img_arr)
+          img_arr = np.array(img_arr)[:,:,:3]
         
         return img_arr
     
